@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+model Productos {
+  id                String      @id @default(cuid())
+  codigoBarras      String
+  nombre            String
+  precio            String
+  costo             String
+  stock             String
+  descripcion       String
+  id_categoria      String     
+  categoria         Categorias @relation(fields: [id_categoria], references: [id])
+}
+
+model Categorias {
+  id                String      @id @default(cuid())
+  nombre            String
+  descripcion       String?
+  productos         Productos[]  // Relación uno a muchos con Productos
+}
+
+
+model Usuarios {
+  id                String @id @default(cuid()) // Identificador único del usuario
+  nombreUsuario     String
+  nombrePersona     String
+  apellidoPaterno   String
+  apellidoMaterno   String
+  email             String?   // Correo electrónico del usuario
+  contrasena        String   // Contraseña cifrada
+  direccion         String   // Dirección de envío
+  telefono          String   // Número de teléfono del usuario
+  rol               String   // Rol del usuario ("cliente", "administrador" o "Dios creador del sistema")
+}
+
+model Roles {
+  id                String @id @default(cuid())
+  permiso           String 
+}
