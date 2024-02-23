@@ -10,16 +10,23 @@ import PrimaryTitle from '~/myComponents/PrimaryTitle';
 import prisma from 'data-access/prisma-config';
 import TableProductos from '~/myComponents/TableProductos';
 import { useLoaderData } from '@remix-run/react';
+import DropDown from '~/myComponents/DropDown';
 
 
 export const loader = async () => {
 
     const usuarios = await prisma.usuarios.findMany()
     const categorias = await prisma.categorias.findMany()
+    const productosConCategorias = await prisma.productos.findMany({
+        include: {
+            categoria: true,
+        },
+    });
 
     return {
         usuarios,
         categorias,
+        productos: productosConCategorias,
     }
 }
 
@@ -29,8 +36,8 @@ const comboOptions = ["Categorias", "Usuarios", "Proveedores", "Productos"];
 
 const Administracion = () => {
 
-    const { usuarios, categorias } = useLoaderData<typeof loader>();
-    console.log(usuarios[0])
+    const { usuarios, categorias, productos } = useLoaderData<typeof loader>();
+    console.log(productos)
 
     const [selectedOption, setSelectedOption] = useState(comboOptions[0]);
 
@@ -76,10 +83,13 @@ const Administracion = () => {
 
             case "Productos":
                 return <TableProductos
+                    data={productos}
                     tableClassName="w-full"
                     thClassName="bg-gray-800 text-white"
                     trClassName="bg-gray-200"
-                    tdClassName="border px-4 py-2" />
+                    tdClassName="border px-4 py-2">
+                        <DropDown text='Accion' dropDownClassName='bg-[#3e90cc] rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl'/>
+                    </TableProductos>
             default: return undefined
 
         }
