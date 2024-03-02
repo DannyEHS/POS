@@ -9,12 +9,11 @@ export const crearProducto = async (data: {
   categoria: string;
   descripcionProducto: string;
 }) => {
-
   return prisma.productos.create({
     data: {
       categoria: {
         connect: {
-          id: data.categoria
+          id: data.categoria,
         },
       },
       codigoBarras: data.codigoBarras,
@@ -23,6 +22,34 @@ export const crearProducto = async (data: {
       costo: data.costoProducto,
       stock: data.cantidadProducto,
       descripcion: data.descripcionProducto,
+    },
+  });
+};
+
+export const actualizarProducto = async (data: {
+  id: string;
+  codigoBarras: string;
+  nombreProducto: string;
+  precioProducto: string;
+  costoProducto: string;
+  cantidadProducto: string;
+  categoria: string;
+  descripcionProducto: string;
+}) => {
+  return prisma.productos.update({
+    where: { id: data.id },
+    data: {
+      codigoBarras: data.codigoBarras,
+      nombre: data.nombreProducto,
+      precio: data.precioProducto,
+      costo: data.costoProducto,
+      stock: data.cantidadProducto,
+      descripcion: data.descripcionProducto,
+      categoria: {
+        connect: {
+          id: data.categoria,
+        },
+      },
     },
   });
 };

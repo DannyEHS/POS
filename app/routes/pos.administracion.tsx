@@ -56,7 +56,8 @@ const Administracion = () => {
             case "Proveedores":
                 return "/pos/crearProveedor";
             case "Productos":
-                return "/pos/crearProducto";
+                return `/pos/crearProducto`;
+            
 
         }
         console.log(selectedOption)
@@ -88,8 +89,24 @@ const Administracion = () => {
                     thClassName="bg-gray-800 text-white"
                     trClassName="bg-gray-200"
                     tdClassName="border px-4 py-2">
-                        <DropDown text='Accion' dropDownClassName='bg-[#3e90cc] rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl'/>
-                    </TableProductos>
+                    <DropDown text='Accion' dropDownClassName='bg-[#3e90cc] rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl'>
+                        <LinkTo
+                            key={}
+                            paDonde={}
+                            text="Editar"
+                            style="bg-[#3e90cc] rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl"
+                        >
+
+                        </LinkTo>
+                        <LinkTo
+                            paDonde=''
+                            text="Eliminar"
+                            style="bg-[#3e90cc] rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl"
+                        >
+
+                        </LinkTo>
+                    </DropDown>
+                </TableProductos>
             default: return undefined
 
         }
@@ -98,7 +115,7 @@ const Administracion = () => {
     return (
         <div className="bg-[#F7F7F7] p-4 rounded-md w-11/12 my-5 overflow-x-auto">
             <PrimaryTitle text='Administracion' />
-            <Input type="text" placeholder="Search here" inputClassName="border px-4 py-2 mb-4" />
+            <Input type="text" placeholder="Buscar" inputClassName="border px-4 py-2 mb-4" />
             <ComboBox
                 comboClassName="border px-4 py-2 mb-4"
                 onChange={(event) => setSelectedOption(event.target.value)}
@@ -110,7 +127,6 @@ const Administracion = () => {
                 ))}
             </ComboBox>
             <LinkTo
-                onClick={handleClick}
                 paDonde={createTopicUrl(selectedOption)}
                 text="Create Category"
                 style="bg-[#3e90cc] rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl"
