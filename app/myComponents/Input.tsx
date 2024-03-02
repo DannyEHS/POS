@@ -1,11 +1,14 @@
+import { ReactNode } from "react";
+
 interface InputProps {
     type: string;
     placeholder?: string;
     inputClassName?: string;
     name?: string | undefined;
+    children?: ReactNode;
 }
 
-const Input = ({ type, placeholder, inputClassName, name } : InputProps) => {
+const Input = ({ children, type, placeholder, inputClassName, name } : InputProps) => {
 
     return (
         <input 
@@ -13,7 +16,9 @@ const Input = ({ type, placeholder, inputClassName, name } : InputProps) => {
             placeholder={placeholder} 
             className={inputClassName}
             name={name}
-        />
+        >
+            {children}
+        </input>
         
     )
 

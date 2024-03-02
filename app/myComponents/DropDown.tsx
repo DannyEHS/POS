@@ -1,11 +1,12 @@
-import  { useState } from "react";
+import  { ReactNode, useState } from "react";
 
 interface DropDownProps {
   text: string;
   dropDownClassName?: string;
+  children?: ReactNode
 }
 
-const DropDown = ({ text, dropDownClassName }: DropDownProps) => {
+const DropDown = ({ text, dropDownClassName, children }: DropDownProps) => {
   const [isOpen, setContent] = useState(false);
 
   const toggleMenu = () => {
@@ -23,10 +24,7 @@ const DropDown = ({ text, dropDownClassName }: DropDownProps) => {
       {isOpen && (
         <ul className="absolute top-full left-0 bg-white border rounded shadow mt-2 z-10">
           <li className="py-2 px-4 cursor-pointer hover:bg-gray-100">
-            Editar
-            </li>
-          <li className="py-2 px-4 cursor-pointer hover:bg-gray-100">
-            Borrar
+            {children}
             </li>
         </ul>
       )}
