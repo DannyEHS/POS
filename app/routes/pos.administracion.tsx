@@ -38,6 +38,8 @@ const Administracion = () => {
 
     const { usuarios, categorias, productos } = useLoaderData<typeof loader>();
     console.log(productos)
+    const idProductos = productos.map(producto => (producto.id))
+    //const idProductos = productos && productos.length > 0 ? productos.map(producto => producto.id) : [];
 
     const [selectedOption, setSelectedOption] = useState(comboOptions[0]);
 
@@ -89,23 +91,7 @@ const Administracion = () => {
                     thClassName="bg-gray-800 text-white"
                     trClassName="bg-gray-200"
                     tdClassName="border px-4 py-2">
-                    <DropDown text='Accion' dropDownClassName='bg-[#3e90cc] rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl'>
-                        <LinkTo
-                            key={}
-                            paDonde={}
-                            text="Editar"
-                            style="bg-[#3e90cc] rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl"
-                        >
-
-                        </LinkTo>
-                        <LinkTo
-                            paDonde=''
-                            text="Eliminar"
-                            style="bg-[#3e90cc] rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl"
-                        >
-
-                        </LinkTo>
-                    </DropDown>
+                    
                 </TableProductos>
             default: return undefined
 

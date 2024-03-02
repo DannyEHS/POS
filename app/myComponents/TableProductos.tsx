@@ -1,4 +1,6 @@
-import { ReactNode } from "react";
+//import { ReactNode } from "react";
+import DropDown from "./DropDown";
+import LinkTo from "./LinkTo";
 
 interface TableProps {
     data: string | any[];
@@ -6,7 +8,7 @@ interface TableProps {
     thClassName?: string;
     trClassName?: string;
     tdClassName?: string;
-    children?: ReactNode;
+    //children?: ReactNode;
 }
 
 const rowsForProduct = {
@@ -19,7 +21,7 @@ const rowsForProduct = {
     opciones: 'Opciones',
 }
 
-const TableProductos = ({ children, data, tableClassName, thClassName, trClassName, tdClassName }: TableProps) => {
+const TableProductos = ({  data, tableClassName, thClassName, trClassName, tdClassName }: TableProps) => {
     return (
         <table className={tableClassName || "w-full"}>
             <thead className={thClassName || "bg-gray-800 text-white"}>
@@ -42,7 +44,25 @@ const TableProductos = ({ children, data, tableClassName, thClassName, trClassNa
                         <td className={tdClassName || 'border px-4 py-2'}>{producto.costo}</td>
                         <td className={tdClassName || 'border px-4 py-2'}>{producto.precio}</td>
                         <td className={tdClassName || 'border px-4 py-2'}>{producto.stock}</td>
-                        <td className={tdClassName || 'border px-4 py-2'}>{children}</td>
+                        <td className={tdClassName || 'border px-4 py-2'}>
+                            <DropDown text='Accion' dropDownClassName='bg-[#3e90cc] rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl'>
+                                <LinkTo
+                                    //key={}
+                                    paDonde={`/pos/actualizar-producto/${producto.id}`}
+                                    text="Editar"
+                                    style="bg-[#3e90cc] rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl"
+                                >
+
+                                </LinkTo>
+                                <LinkTo
+                                    paDonde=''
+                                    text="Eliminar"
+                                    style="bg-[#3e90cc] rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl"
+                                >
+
+                                </LinkTo>
+                            </DropDown>
+                        </td>
                     </tr>
                 ))}
                 {

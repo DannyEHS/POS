@@ -1,14 +1,23 @@
-import { ReactNode } from "react";
+import { useState, ChangeEvent } from "react";
 
 interface InputProps {
     type: string;
     placeholder?: string;
     inputClassName?: string;
     name?: string | undefined;
-    children?: ReactNode;
+    value?: string | number | null | undefined;  
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input = ({ children, type, placeholder, inputClassName, name } : InputProps) => {
+const Input = ({ value, type, placeholder, inputClassName, name, onChange }: InputProps) => {
+    const [inputValue, setInputValue] = useState(value || '');  // Usa un estado interno
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setInputValue(event.target.value);
+        if (onChange) {
+            onChange(event);
+        }
+    };
 
     return (
         <input 
@@ -16,12 +25,10 @@ const Input = ({ children, type, placeholder, inputClassName, name } : InputProp
             placeholder={placeholder} 
             className={inputClassName}
             name={name}
-        >
-            {children}
-        </input>
-        
-    )
-
+            value={inputValue}
+            onChange={handleChange}
+        />
+    );
 }
 
-export default Input
+export default Input;

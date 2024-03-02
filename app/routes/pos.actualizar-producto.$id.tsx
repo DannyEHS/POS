@@ -8,22 +8,12 @@ import { PrismaClient } from "@prisma/client"
 import LinkTo from "~/myComponents/LinkTo"
 import { actualizarProducto } from "data-access/product-service"
 
-export const loader = async () => {
-    const prisma = new PrismaClient();
-
-    const categorias = await prisma.categorias.findMany();
-    console.log(categorias);
-    
-    return {
-        categorias,
-    };
-};
-
-export const loaderDataProduct = async ({params}) => {
+export const loader = async ({params}) => {
     const prisma = new PrismaClient();
     const {id} = params;
     
-
+    const categorias = await prisma.categorias.findMany();
+    console.log(categorias);
     const informacion = await prisma.productos.findUnique({
         where: {
             id
@@ -32,7 +22,8 @@ export const loaderDataProduct = async ({params}) => {
     console.log("Información del producto:", informacion);
     console.log("ID del producto:", id);
     return{
-        informacion
+        informacion,
+        categorias
     }
     
 }
@@ -80,31 +71,25 @@ export const action = async ({ request, params }: ActionArgs) => {
 };
 
 
-const ActualizarProducto = () => {
+const ActualizarProducto = () => {    
 
-    const { categorias } = useLoaderData<typeof loader>()
+    const { informacion, categorias } = useLoaderData<typeof loader>()
     const nombresCategorias = categorias.map(categoria => ({ nombre: categoria.nombre, id: categoria.id }));
     console.log(nombresCategorias)
-
-    const { informacion } = useLoaderData<typeof loaderDataProduct>()
     console.log("Info: ",informacion)
 
     return (
         <div className="bg-[#F7F7F7] p-4 rounded-md w-11/12 my-5">
             <PrimaryTitle text="Editar Producto" />
             <Form method="post" className="flex flex-col p-9">
-                <Input name="codigoBarras" type="text" placeholder="Escanea el codigo de barras del producto" inputClassName="border px-4 py-2 mb-4">
-                    {informacion?.codigoBarras}
-                </Input>
-                <Input name="nombreProducto" type="text" placeholder="Escribe el nombre del producto" inputClassName="border px-4 py-2 mb-4">
-                    {informacion?.nombre}
-                </Input>
-                <Input name="precioProducto" type="text" placeholder="Escribe el precio del producto" inputClassName="border px-4 py-2 mb-4">
-                    {informacion?.precio}
-                </Input>
-                <Input name="costoProducto" type="text" placeholder="Escribe el costo del producto" inputClassName="border px-4 py-2 mb-4">
-                    {informacion?.costo}
-                </Input>
+                <Input value={informacion?.codigoBarras} name="codigoBarras" type="text" placeholder="Escanea el codigo de barras del producto" inputClassName="border px-4 py-2 mb-4"/>
+                    
+                <Input value={informacion?.nombre} name="nombreProducto" type="text" placeholder="Escribe el nombre del producto" inputClassName="border px-4 py-2 mb-4"/>
+
+                <Input value={informacion?.precio} name="precioProducto" type="text" placeholder="Escribe el precio del producto" inputClassName="border px-4 py-2 mb-4"/>
+                    
+                <Input value={informacion?.costo} name="costoProducto" type="text" placeholder="Escribe el costo del producto" inputClassName="border px-4 py-2 mb-4"/>
+                    
                 <ComboBox2
                     comboClassName="border px-4 py-2 mb-4"
                     name="categoriasProducto"
@@ -115,12 +100,9 @@ const ActualizarProducto = () => {
                         </option>
                     ))}
                 </ComboBox2>
-                <Input name="cantidadProducto" type="text" placeholder="Cantidad de productos" inputClassName="border px-4 py-2 mb-4">
-                    {informacion?.stock}
-                </Input>
-                <TextArea name="descripcionProducto" type="text" placeholder="Escribe una descripcion para el producto" textareaClassName="border px-4 py-2 mb-4">
-                    {informacion?.descripcion}
-                </TextArea>
+                <Input value={informacion?.stock} name="cantidadProducto" type="text" placeholder="Cantidad de productos" inputClassName="border px-4 py-2 mb-4"/>
+                    
+                <TextArea value={informacion?.descripcion} name="descripcionProducto" type="text" placeholder="Escribe una descripcion para el producto" textareaClassName="border px-4 py-2 mb-4"/>
                 <div className="flex flex-row space-x-5">
                     <Button text="Actualizar Producto" type="submit" buttonClassName="bg-[#3e90cc] rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl" />
                     <LinkTo
