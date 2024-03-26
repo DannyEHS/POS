@@ -1,6 +1,9 @@
 //import { ReactNode } from "react";
 import DropDown from "./DropDown";
 import LinkTo from "./LinkTo";
+import Button from "./Button"
+import { eliminarProducto } from "data-access/product-service";
+import { redirect } from "@remix-run/node";
 
 interface TableProps {
     data: string | any[];
@@ -21,7 +24,18 @@ const rowsForProduct = {
     opciones: 'Opciones',
 }
 
-const TableProductos = ({  data, tableClassName, thClassName, trClassName, tdClassName }: TableProps) => {
+export const action = async ({ request, params }: ActionArgs) => {
+    const formData = await request.formData();
+    const deleteData = formData.get('delete');
+
+    if (deleteData === 'delete') {
+        await eliminarProducto(params.id)
+        return redirect('/pos')
+    }
+}
+
+
+const TableProductos = ({ data, tableClassName, thClassName, trClassName, tdClassName }: TableProps) => {
     return (
         <table className={tableClassName || "w-full"}>
             <thead className={thClassName || "bg-gray-800 text-white"}>
@@ -54,13 +68,15 @@ const TableProductos = ({  data, tableClassName, thClassName, trClassName, tdCla
                                 >
 
                                 </LinkTo>
-                                <LinkTo
-                                    paDonde=''
-                                    text="Eliminar"
-                                    style="bg-[#3e90cc] rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl"
-                                >
 
-                                </LinkTo>
+                                <Button
+                                    text="Eliminar"
+                                    type="button" // Puedes ajustar el tipo según tus necesidades
+                                    buttonClassName="bg-red-500 rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl"
+                                    name="delete"
+                                />
+
+
                             </DropDown>
                         </td>
                     </tr>

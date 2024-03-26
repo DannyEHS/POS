@@ -1,19 +1,22 @@
-import { ReactNode } from "react";
+import { ReactNode, MouseEventHandler } from "react";
 
 interface ButtonProps {
     text: string;
+    name?: string;
     type: "submit" | "reset" | "button" | undefined;
     buttonClassName?: string;
-    children?: ReactNode
+    onClick?: MouseEventHandler<HTMLButtonElement>;
+    children?: ReactNode;
 }
 
-const Button = ({ text, type, buttonClassName, children } : ButtonProps) => {
+const Button = ({ text, type, buttonClassName, onClick, children, name }: ButtonProps) => {
     return (
-        <button type={type} className={buttonClassName}>
+        <button name={name} type={type} className={buttonClassName} onClick={onClick}>
             {text}
             {children}
         </button>
-    )
+    );
 }
 
-export default Button
+export default Button;
+

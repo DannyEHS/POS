@@ -53,3 +53,9 @@ export const actualizarProducto = async (data: {
     },
   });
 };
+
+export const eliminarProducto = async (id: string) => {
+  return prisma.productos.delete({
+    where: { id },
+  });
+};

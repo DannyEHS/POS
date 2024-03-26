@@ -10,8 +10,7 @@ import PrimaryTitle from '~/myComponents/PrimaryTitle';
 import prisma from 'data-access/prisma-config';
 import TableProductos from '~/myComponents/TableProductos';
 import { useLoaderData } from '@remix-run/react';
-import DropDown from '~/myComponents/DropDown';
-
+import { eliminarProducto } from 'data-access/product-service';
 
 export const loader = async () => {
 
@@ -30,15 +29,13 @@ export const loader = async () => {
     }
 }
 
-
-
 const comboOptions = ["Categorias", "Usuarios", "Proveedores", "Productos"];
 
 const Administracion = () => {
 
     const { usuarios, categorias, productos } = useLoaderData<typeof loader>();
     console.log(productos)
-    const idProductos = productos.map(producto => (producto.id))
+    //const idProductos = productos.map(producto => (producto.id))
     //const idProductos = productos && productos.length > 0 ? productos.map(producto => producto.id) : [];
 
     const [selectedOption, setSelectedOption] = useState(comboOptions[0]);
