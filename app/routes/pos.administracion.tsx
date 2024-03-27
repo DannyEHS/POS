@@ -29,12 +29,23 @@ export const loader = async () => {
     }
 }
 
+export const action = async ({ request }: ActionArgs) => {
+    const formData = await request.formData();
+    const intent = formData.get('intent');
+    const productId = formData.get('productId');
+
+    if (intent === 'delete') {
+        await eliminarProducto(productId)
+    }
+    return null
+}
+
 const comboOptions = ["Categorias", "Usuarios", "Proveedores", "Productos"];
 
 const Administracion = () => {
 
     const { usuarios, categorias, productos } = useLoaderData<typeof loader>();
-    console.log(productos)
+    //console.log(productos)
     //const idProductos = productos.map(producto => (producto.id))
     //const idProductos = productos && productos.length > 0 ? productos.map(producto => producto.id) : [];
 
@@ -43,7 +54,7 @@ const Administracion = () => {
     const handleClick = () => {
         const topicUrl = createTopicUrl(selectedOption);
         // Realizar acciones necesarias con la URL, como navegar a la nueva ruta
-        console.log(topicUrl);
+        //console.log(topicUrl);
     };
 
     const createTopicUrl = (selectedOption: string): string => {
@@ -59,7 +70,7 @@ const Administracion = () => {
             
 
         }
-        console.log(selectedOption)
+        //console.log(selectedOption)
     };
 
     const renderTable = () => {
