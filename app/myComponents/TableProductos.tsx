@@ -2,8 +2,7 @@
 import DropDown from "./DropDown";
 import LinkTo from "./LinkTo";
 import Button from "./Button"
-import { eliminarProducto } from "data-access/product-service";
-import { redirect } from "@remix-run/node";
+import { Form } from "@remix-run/react";
 
 interface TableProps {
     data: string | any[];
@@ -22,16 +21,6 @@ const rowsForProduct = {
     precio: 'Precio',
     existencia: 'Existencia',
     opciones: 'Opciones',
-}
-
-export const action = async ({ request, params }: ActionArgs) => {
-    const formData = await request.formData();
-    const deleteData = formData.get('delete');
-
-    if (deleteData === 'delete') {
-        await eliminarProducto(params.id)
-        return redirect('/pos')
-    }
 }
 
 
@@ -68,15 +57,16 @@ const TableProductos = ({ data, tableClassName, thClassName, trClassName, tdClas
                                 >
 
                                 </LinkTo>
-
-                                <Button
-                                    text="Eliminar"
-                                    type="button" // Puedes ajustar el tipo según tus necesidades
-                                    buttonClassName="bg-red-500 rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl"
-                                    name="delete"
-                                />
-
-
+                                <Form method="post">
+                                    <input name="productId" defaultValue={producto.id} className="hidden"></input>
+                                    <Button
+                                        text="Eliminar"
+                                        type="submit" // Puedes ajustar el tipo según tus necesidades
+                                        buttonClassName="bg-red-500 rounded-md mt-3 mb-2 p-1 text-white text-center w-40 hover:shadow-xl"
+                                        name="intent"
+                                        value="delete"
+                                    />
+                                </Form>
                             </DropDown>
                         </td>
                     </tr>
