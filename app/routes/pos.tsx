@@ -5,7 +5,7 @@ const Pos = () => {
     return (
         <div className="flex">
             <Sidebar />
-            <div className="min-h-screen flex flex-grow justify-center bg-[#DDDDDD] w-auto mx-auto">
+            <div className="min-h-screen flex flex-grow justify-center bg-[#292929] w-auto mx-auto">
                 <Outlet />
             </div>
         </div>
